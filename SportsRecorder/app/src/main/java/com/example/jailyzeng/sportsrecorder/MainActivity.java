@@ -17,6 +17,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private float previousX;
     private float previousY;
     private int state;
+    private int myScore;
+    private int otherScore;
 
 
     @Override
@@ -31,7 +33,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         state = 0;
     }
-
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
@@ -66,7 +67,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public float getPreviousX() {
         return previousX;
     }
-
+    
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.summaryButton) {
