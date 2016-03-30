@@ -10,6 +10,8 @@ public class MainActivity extends AppCompatActivity {
     private float previousX;
     private float previousY;
     private int state;
+    private int myScore;
+    private int otherScore;
 
 
     @Override
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         state = 0;
     }
 
-
+/*
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         // MotionEvent reports input details from the touch screen
@@ -53,4 +55,5 @@ public class MainActivity extends AppCompatActivity {
     public float getPreviousX() {
         return previousX;
     }
+    */
 }
