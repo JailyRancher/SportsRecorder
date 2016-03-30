@@ -9,9 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.view.MotionEvent;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener {
 
     private Button shareButton;
+    private Button summaryButton;
 
     private float previousX;
     private float previousY;
@@ -25,9 +26,18 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Intent myIntent = new Intent(this, SummaryActivity.class);
-        // startActivity(myIntent);
+        summaryButton = (Button) findViewById(R.id.summaryButton);
+        summaryButton.setOnClickListener(this);
+
         state = 0;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.summaryButton) {
+            Intent myIntent = new Intent(this, SummaryActivity.class);
+            startActivity(myIntent);
+        }
     }
 
 /*
@@ -66,7 +76,4 @@ public class MainActivity extends Activity {
     }
 <<<<<<< HEAD
     */
-=======
-
->>>>>>> f8a433f30bff1ba9da448c3b2f2c1d540468a28c
 }

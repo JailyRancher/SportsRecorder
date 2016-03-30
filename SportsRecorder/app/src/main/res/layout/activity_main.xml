@@ -14,5 +14,12 @@
         android:layout_weight="1"
         android:layout_gravity="fill_vertical"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Summary"
+        android:id="@+id/summaryButton"
+        android:layout_weight="1" />
+
 
 </LinearLayout>

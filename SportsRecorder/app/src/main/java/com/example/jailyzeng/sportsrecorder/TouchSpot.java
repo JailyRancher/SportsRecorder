@@ -74,24 +74,14 @@ public class TouchSpot extends View implements View.OnTouchListener {
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_POINTER_DOWN:
-                Point p = new Point((int) x, (int) y);
-                pointerMap.put(id, p);
+                mCanvas.drawColor(20);
+                mCanvas.drawCircle(event.getX(), event.getY(), 50, mPaint);
+                invalidate();
                 break;
+            case MotionEvent.ACTION_POINTER_DOWN:
 
             case MotionEvent.ACTION_MOVE:
-                for (int i = 0; i < event.getPointerCount(); ++i) {
-                    id = event.getPointerId(i);
-                    x = event.getX(i);
-                    y = event.getY(i);
-                    Point last = (Point) pointerMap.get(id);
-                    if (last != null) {
-                        mPaint.setStrokeWidth(dotRadius);
-                        mCanvas.drawLine(last.x, last.y, x, y, mPaint);
-                    }
-                    pointerMap.put(id, new Point((int) x, (int) y));
-                }
-                invalidate();
+
                 break;
 
             case MotionEvent.ACTION_UP:
