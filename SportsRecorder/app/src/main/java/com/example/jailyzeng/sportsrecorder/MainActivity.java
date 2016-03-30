@@ -26,6 +26,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Log.w("location", "location");
+
         summaryButton = (Button) findViewById(R.id.summaryButton);
         summaryButton.setOnClickListener(this);
 
@@ -40,7 +42,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
-/*
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         // MotionEvent reports input details from the touch screen
@@ -74,6 +75,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public float getPreviousX() {
         return previousX;
     }
-<<<<<<< HEAD
-    */
+    
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.summaryButton) {
+             Intent myIntent = new Intent(this, SummaryActivity.class);
+             startActivity(myIntent);
+        }
+    }
 }
