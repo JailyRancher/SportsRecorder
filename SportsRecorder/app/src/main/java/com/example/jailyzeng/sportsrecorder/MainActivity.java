@@ -71,8 +71,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.summaryButton) {
-             Intent myIntent = new Intent(this, SummaryActivity.class);
-             startActivity(myIntent);
+            int[] scores = {1,2,3,4,5,6,7,8};
+            Bundle b = new Bundle();
+            b.putIntArray("scores", scores);
+            Intent myIntent = new Intent(this, SummaryActivity.class);
+            myIntent.putExtras(b);
+            startActivity(myIntent);
         }
     }
 }

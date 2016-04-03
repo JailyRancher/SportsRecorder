@@ -49,10 +49,12 @@
                 android:text="Quarter 1"
                 android:padding="10dp" />
             <TextView
+                android:id="@+id/q1s1"
                 android:text="##"
                 android:padding="10dp"
                 android:layout_gravity="center" />
             <TextView
+                android:id="@+id/q1s2"
                 android:text="##"
                 android:padding="10dp"
                 android:layout_gravity="center" />
@@ -63,10 +65,12 @@
                 android:text="Quarter 2"
                 android:padding="10dp" />
             <TextView
+                android:id="@+id/q2s1"
                 android:text="##"
                 android:padding="10dp"
                 android:layout_gravity="center" />
             <TextView
+                android:id="@+id/q2s2"
                 android:text="##"
                 android:padding="10dp"
                 android:layout_gravity="center" />
@@ -77,10 +81,12 @@
                 android:text="Quarter 3"
                 android:padding="10dp" />
             <TextView
+                android:id="@+id/q3s1"
                 android:text="##"
                 android:padding="10dp"
                 android:layout_gravity="center" />
             <TextView
+                android:id="@+id/q3s2"
                 android:text="##"
                 android:padding="10dp"
                 android:layout_gravity="center" />
@@ -91,10 +97,12 @@
                 android:text="Quarter 4"
                 android:padding="10dp" />
             <TextView
+                android:id="@+id/q4s1"
                 android:text="##"
                 android:padding="10dp"
                 android:layout_gravity="center" />
             <TextView
+                android:id="@+id/q4s2"
                 android:text="##"
                 android:padding="10dp"
                 android:layout_gravity="center" />
