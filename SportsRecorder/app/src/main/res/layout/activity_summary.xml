@@ -26,8 +26,7 @@
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/quarterInfo"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:scrollbars="vertical"
@@ -102,43 +101,154 @@
         </TableRow>
 
     </TableLayout>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="none"
+        android:layout_weight="1">
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/eventInfo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:scrollbars="vertical"
+            android:stretchColumns="1">
 
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/eventInfo"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:scrollbars="vertical"
-        android:stretchColumns="1">
+            <TableRow>
+                <TextView
+                    android:text="11:05am"
+                    android:padding="10dp"
+                    android:layout_gravity="center" />
+                <CheckedTextView
+                    android:text="Free throw"
+                    android:padding="10dp"
+                    android:gravity="center_vertical"
+                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                    android:checked="true" />
+            </TableRow>
 
-        <TableRow>
-            <TextView
-                android:text="11:05am"
-                android:padding="10dp"
-                android:layout_gravity="center" />
-            <CheckedTextView
-                android:text="Free throw"
-                android:padding="10dp"
-                android:gravity="center_vertical"
-                android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                android:checked="true" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:text="11:25am"
-                android:padding="10dp"
-                android:layout_gravity="center" />
-            <CheckedTextView
-                android:text="Slam dunk"
-                android:padding="10dp"
-                android:gravity="center_vertical"
-                android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                android:checked="false" />
-        </TableRow>
-
-    </TableLayout>
-
+            <TableRow>
+                <TextView
+                    android:text="11:25am"
+                    android:padding="10dp"
+                    android:layout_gravity="center" />
+                <CheckedTextView
+                    android:text="Slam dunk"
+                    android:padding="10dp"
+                    android:gravity="center_vertical"
+                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                    android:checked="false" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="11:25am"
+                    android:padding="10dp"
+                    android:layout_gravity="center" />
+                <CheckedTextView
+                    android:text="Slam dunk"
+                    android:padding="10dp"
+                    android:gravity="center_vertical"
+                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                    android:checked="false" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="11:25am"
+                    android:padding="10dp"
+                    android:layout_gravity="center" />
+                <CheckedTextView
+                    android:text="Slam dunk"
+                    android:padding="10dp"
+                    android:gravity="center_vertical"
+                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                    android:checked="false" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="11:25am"
+                    android:padding="10dp"
+                    android:layout_gravity="center" />
+                <CheckedTextView
+                    android:text="Slam dunk"
+                    android:padding="10dp"
+                    android:gravity="center_vertical"
+                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                    android:checked="false" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="11:25am"
+                    android:padding="10dp"
+                    android:layout_gravity="center" />
+                <CheckedTextView
+                    android:text="Slam dunk"
+                    android:padding="10dp"
+                    android:gravity="center_vertical"
+                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                    android:checked="false" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="11:25am"
+                    android:padding="10dp"
+                    android:layout_gravity="center" />
+                <CheckedTextView
+                    android:text="Slam dunk"
+                    android:padding="10dp"
+                    android:gravity="center_vertical"
+                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                    android:checked="false" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="11:25am"
+                    android:padding="10dp"
+                    android:layout_gravity="center" />
+                <CheckedTextView
+                    android:text="Slam dunk"
+                    android:padding="10dp"
+                    android:gravity="center_vertical"
+                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                    android:checked="false" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="11:25am"
+                    android:padding="10dp"
+                    android:layout_gravity="center" />
+                <CheckedTextView
+                    android:text="Slam dunk"
+                    android:padding="10dp"
+                    android:gravity="center_vertical"
+                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                    android:checked="false" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="11:25am"
+                    android:padding="10dp"
+                    android:layout_gravity="center" />
+                <CheckedTextView
+                    android:text="Slam dunk"
+                    android:padding="10dp"
+                    android:gravity="center_vertical"
+                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                    android:checked="false" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="12:00am"
+                    android:padding="10dp"
+                    android:layout_gravity="center" />
+                <CheckedTextView
+                    android:text="Slam dunk"
+                    android:padding="10dp"
+                    android:gravity="center_vertical"
+                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                    android:checked="false" />
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
 </LinearLayout>

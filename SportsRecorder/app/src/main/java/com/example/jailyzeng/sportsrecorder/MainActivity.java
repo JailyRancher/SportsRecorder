@@ -35,14 +35,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View v) {
-        if(v.getId() == R.id.summaryButton) {
-            Intent myIntent = new Intent(this, SummaryActivity.class);
-            startActivity(myIntent);
-        }
-    }
-
-    @Override
     public boolean onTouchEvent(MotionEvent e) {
         // MotionEvent reports input details from the touch screen
         // and other input controls. In this case, you are only
