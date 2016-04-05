@@ -14,10 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class MainActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener{
 
+    private ArrayList<String> time;
+    private ArrayList<String> desc;
+    private ArrayList<String> hit;
     private static TextView teamNameA;
     private static TextView teamNameB;
 
@@ -40,14 +44,16 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     private int state;
     private int myScore;
     private int otherScore;
-    private HashMap pointerMap; // map pointer id to last detected touch point
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Initialize all objects needed
+        time = new ArrayList<String>();
+        desc = new ArrayList<String>();
+        hit = new ArrayList<String>();
+
         teamNameA = (TextView) findViewById(R.id.teamNameA_label);
         teamNameB = (TextView) findViewById(R.id.teamNameB_label);
 
@@ -68,7 +74,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
 
         background = (LinearLayout) findViewById(R.id.background);
 
-        background.setOnLongClickListener(this);
+        background.setOnTouchListener(this);
         background.setOnClickListener(this);
 
         background.setOnTouchListener(this);
@@ -111,7 +117,6 @@ public class MainActivity extends Activity implements View.OnClickListener, View
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(this, "Click", Toast.LENGTH_SHORT).show();
         if( v.getId() == R.id.teamAMinusButton ) {
             if( isFirstHalf ) Statistics.decrementFirstScoreA();
             else Statistics.decrementSecondScoreA();
@@ -128,8 +133,6 @@ public class MainActivity extends Activity implements View.OnClickListener, View
             if( isFirstHalf ) Statistics.incrementFirstScoreB();
             else Statistics.incrementSecondScoreB();
             setTeamBScore();
-        } else if(v.getId() == R.id.background) {
-            Log.d("click", "background");
         } else if(v.getId() == R.id.summaryButton) {
             int[] scores = {1,2,3,4,5,6,7,8};
             Bundle b = new Bundle();
@@ -151,21 +154,114 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event)
-    {
-        Log.d("", "touch");
-        switch(event.getAction())
-        {
+    public boolean onTouch(View v, MotionEvent event) {
+        // Log.d("DEBUG", "Receiving touch event");
+        int action = event.getActionMasked();
+        int index = event.getActionIndex();
+        int id = event.getPointerId(index);
+        float x = event.getX(index);
+        float y = event.getY(index);
+        Calendar c = Calendar.getInstance();
+        int m = c.get(Calendar.MINUTE);
+        String ms = m < 10 ? "0"+Integer.toString(m) : Integer.toString(m);
+        final String date = c.get(Calendar.HOUR)+":"+ms+(c.get(Calendar.AM_PM)==0?"AM":"PM");
+        switch (action) {
             case MotionEvent.ACTION_DOWN:
-                x1 = event.getX();
+                Log.d("","actiondown");
+
+		x1 = event.getX();                
+
+		v.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        Toast.makeText(getApplicationContext(), " Free Throw Miss", Toast.LENGTH_SHORT).show();
+                        Statistics.incrementFirstScoreA();
+                        MainActivity.setTeamAScore();
+                        time.add(date);
+                        desc.add("Free Throw");
+                        hit.add("Miss");
+                        return true;
+                    }
+                });
+                v.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "Free Throw Hit!", Toast.LENGTH_SHORT).show();
+                        Statistics.incrementFirstScoreA();
+                        MainActivity.setTeamAScore();
+                        time.add(date);
+                        desc.add("Free Throw");
+                        hit.add("Hit");
+                    }
+                });
                 break;
+
+            case MotionEvent.ACTION_POINTER_DOWN:
+                if(event.getPointerCount()==2) {
+                    v.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            Toast.makeText(getApplicationContext(), "2 Pointer Miss", Toast.LENGTH_SHORT).show();
+                            time.add(date);
+                            desc.add("2 Pointer");
+                            hit.add("Miss");
+                            return true;
+                        }
+
+                    });
+                    v.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getApplicationContext(), "2 Pointer Hit!", Toast.LENGTH_SHORT).show();
+                            Statistics.incrementFirstScoreA();
+                            Statistics.incrementFirstScoreA();
+                            MainActivity.setTeamAScore();
+                            time.add(date);
+                            desc.add("2 Pointer");
+                            hit.add("Hit");
+                        }
+                    });
+                }
+                else if(event.getPointerCount()==3){
+                    v.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            Toast.makeText(getApplicationContext(), "3 Pointer Miss", Toast.LENGTH_SHORT).show();
+                            time.add(date);
+                            desc.add("3 Pointer");
+                            hit.add("Miss");
+                            return true;
+                        }
+
+                    });
+                    v.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getApplicationContext(), "3 Pointer Hit!", Toast.LENGTH_SHORT).show();
+                            Statistics.incrementFirstScoreA();
+                            Statistics.incrementFirstScoreA();
+                            Statistics.incrementFirstScoreA();
+                            time.add(date);
+                            desc.add("3 Pointer");
+                            hit.add("Hit");
+                            MainActivity.setTeamAScore();
+                        }
+                    });
+                }
+                Log.d("fingers", Integer.toString(event.getPointerCount()));
+                break;
+            case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_UP:
-                x2 = event.getX();
+		x2 = event.getX();
                 float deltaX = x2 - x1;
                 if ( isFirstHalf && Math.abs(deltaX) > MIN_DISTANCE ) {
                     HalfTimeDialog halfTimeDialog = new HalfTimeDialog(this);
                     halfTimeDialog.show();
                 }
+		break;
+            case MotionEvent.ACTION_POINTER_UP:
+            case MotionEvent.ACTION_CANCEL:
+            default:
                 break;
         }
         return false;
