@@ -7,9 +7,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.*;
 import java.util.Arrays;
-/**
- * Created by liwingyee on 15/3/16.
- */
+
 public class SummaryActivity extends Activity implements View.OnClickListener {
 
     private TextView quarterInfo;

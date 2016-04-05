@@ -1,5 +1,15 @@
 <resources>
+
+    <string name="hint_teamA">Team A</string>
+    <string name="hint_teamB">Team B</string>
+    <string name="vs">VS</string>
+    <string name="dialog_ok">OK</string>
+
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+
     <string name="app_name">SportsRecorder</string>
     <string name="summary_title">Summary</string>
-    <string name="share">Share</string>
+    <string name="share">SHARE</string>
+
 </resources>

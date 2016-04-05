@@ -74,10 +74,24 @@ public class TouchSpot extends View implements View.OnTouchListener {
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                mCanvas.drawColor(20);
-                mCanvas.drawCircle(event.getX(), event.getY(), 50, mPaint);
-                invalidate();
+
+
+                v.setOnLongClickListener(new OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        // TODO Auto-generated method stub
+                        Statistics.incrementFirstScoreA();
+                        MainActivity.setTeamAScore();
+                        return true;
+                    }
+
+                });
                 break;
+
+//                mCanvas.drawColor(20);
+//                mCanvas.drawCircle(event.getX(), event.getY(), 50, mPaint);
+//                invalidate();
+                //break;
             case MotionEvent.ACTION_POINTER_DOWN:
 
             case MotionEvent.ACTION_MOVE:
