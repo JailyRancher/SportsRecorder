@@ -16,7 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends Activity implements View.OnClickListener{
+public class MainActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener{
 
     private static TextView teamNameA;
     private static TextView teamNameB;
@@ -67,10 +67,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
         summaryButton.setOnClickListener(this);
 
         background = (LinearLayout) findViewById(R.id.background);
+
+        background.setOnLongClickListener(this);
         background.setOnClickListener(this);
-
-
-        //Log.w("location", "location");
 
         // Show dialog box that sets the team names
         TeamNamesDialog teamNamesDialog = new TeamNamesDialog(this);
@@ -141,10 +140,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
     public float getPreviousX() {
         return previousX;
     }
-    
+
     @Override
     public void onClick(View v) {
-        Log.d("click","click");
+        Toast.makeText(this, "Click", Toast.LENGTH_SHORT).show();
         if( v.getId() == R.id.teamAMinusButton ) {
             if( isFirstHalf ) Statistics.decrementFirstScoreA();
             else Statistics.decrementSecondScoreA();
@@ -161,7 +160,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
             if( isFirstHalf ) Statistics.incrementFirstScoreB();
             else Statistics.incrementSecondScoreB();
             setTeamBScore();
-	    } else if(v.getId() == R.id.summaryButton) {
+        } else if(v.getId() == R.id.background) {
+            Log.d("click", "background");
+        } else if(v.getId() == R.id.summaryButton) {
             int[] scores = {1,2,3,4,5,6,7,8};
             Bundle b = new Bundle();
             b.putIntArray("scores", scores);
@@ -171,6 +172,22 @@ public class MainActivity extends Activity implements View.OnClickListener{
             startActivity(myIntent);
         }
 
+    }
+
+    @Override
+    public boolean onLongClick(View v)
+    {
+        Log.d("", "longclick");
+        Toast.makeText(this, "Long Touch", Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event)
+    {
+        Log.d("", "touch");
+        //Toast.makeText(this, "Touch", Toast.LENGTH_SHORT).show();
+        return true;
     }
 
 }
