@@ -71,6 +71,8 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         background.setOnLongClickListener(this);
         background.setOnClickListener(this);
 
+        background.setOnTouchListener(this);
+
         // Show dialog box that sets the team names
         TeamNamesDialog teamNamesDialog = new TeamNamesDialog(this);
         teamNamesDialog.show();
@@ -97,40 +99,6 @@ public class MainActivity extends Activity implements View.OnClickListener, View
 
     public static void changeToSecondHalf() {
         isFirstHalf = false;
-    }
-
-    final GestureDetector gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
-        public void onLongPress(MotionEvent e) {
-            Log.e("", "Longpress detected");
-        }
-    });
-
-    @Override
-    public boolean onTouchEvent(MotionEvent e) {
-        // MotionEvent reports input details from the touch screen
-        // and other input controls. In this case, you are only
-        // interested in events where the touch position changed.
-
-//        float x = e.getX();
-//        float y = e.getY();
-//
-//        switch (e.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                state = 1;
-//            case MotionEvent.ACTION_UP:
-//                if(state == 1){
-//                    state = 0;
-//                    previousX = x;
-//                    previousY = y;
-//                    Log.d("location", "location: X - " + Float.toString(previousX) + " || Y - " + Float.toString(previousY));
-//                    return true;
-//                }
-//        }
-//
-//
-//        return false;
-
-        return gestureDetector.onTouchEvent(e);
     }
 
     public float getPreviousY() {
@@ -186,8 +154,21 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     public boolean onTouch(View v, MotionEvent event)
     {
         Log.d("", "touch");
-        //Toast.makeText(this, "Touch", Toast.LENGTH_SHORT).show();
-        return true;
+        switch(event.getAction())
+        {
+            case MotionEvent.ACTION_DOWN:
+                x1 = event.getX();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+                float deltaX = x2 - x1;
+                if ( isFirstHalf && Math.abs(deltaX) > MIN_DISTANCE ) {
+                    HalfTimeDialog halfTimeDialog = new HalfTimeDialog(this);
+                    halfTimeDialog.show();
+                }
+                break;
+        }
+        return false;
     }
 
 }
