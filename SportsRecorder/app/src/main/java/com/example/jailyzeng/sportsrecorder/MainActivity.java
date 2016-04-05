@@ -16,7 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends Activity implements View.OnClickListener{
+public class MainActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener{
 
     private static TextView teamNameA;
     private static TextView teamNameB;
@@ -65,10 +65,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
         summaryButton.setOnClickListener(this);
 
         background = (LinearLayout) findViewById(R.id.background);
+
+        background.setOnLongClickListener(this);
         background.setOnClickListener(this);
-
-
-        //Log.w("location", "location");
 
         // Show dialog box that sets the team names
         TeamNamesDialog teamNamesDialog = new TeamNamesDialog(this);
@@ -94,39 +93,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
         else teamBScore.setText( Integer.toString(Statistics.getFirstScoreB() + Statistics.getSecondScoreB() ) );
     }
 
-    final GestureDetector gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
-        public void onLongPress(MotionEvent e) {
-            Log.e("", "Longpress detected");
-        }
-    });
-
-    @Override
-    public boolean onTouchEvent(MotionEvent e) {
-        // MotionEvent reports input details from the touch screen
-        // and other input controls. In this case, you are only
-        // interested in events where the touch position changed.
-
-//        float x = e.getX();
-//        float y = e.getY();
-//
-//        switch (e.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                state = 1;
-//            case MotionEvent.ACTION_UP:
-//                if(state == 1){
-//                    state = 0;
-//                    previousX = x;
-//                    previousY = y;
-//                    Log.d("location", "location: X - " + Float.toString(previousX) + " || Y - " + Float.toString(previousY));
-//                    return true;
-//                }
-//        }
-//
-//
-//        return false;
-        return gestureDetector.onTouchEvent(e);
-    }
-
     public float getPreviousY() {
         return previousY;
     }
@@ -134,10 +100,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
     public float getPreviousX() {
         return previousX;
     }
-    
+
     @Override
     public void onClick(View v) {
-        Log.d("click","click");
+        Toast.makeText(this, "Click", Toast.LENGTH_SHORT).show();
         if( v.getId() == R.id.teamAMinusButton ) {
             if( isFirstHalf ) Statistics.decrementFirstScoreA();
             else Statistics.decrementSecondScoreA();
@@ -155,6 +121,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
             else Statistics.incrementSecondScoreB();
             setTeamBScore();
 	    }
+        else if(v.getId() == R.id.background){
+            Log.d("click", "background");
+        }
         else if(v.getId() == R.id.summaryButton) {
             int[] scores = {1,2,3,4,5,6,7,8};
             Bundle b = new Bundle();
@@ -165,6 +134,22 @@ public class MainActivity extends Activity implements View.OnClickListener{
             startActivity(myIntent);
         }
 
+    }
+
+    @Override
+    public boolean onLongClick(View v)
+    {
+        Log.d("", "longclick");
+        Toast.makeText(this, "Long Touch", Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event)
+    {
+        Log.d("", "touch");
+        //Toast.makeText(this, "Touch", Toast.LENGTH_SHORT).show();
+        return true;
     }
 
 }
