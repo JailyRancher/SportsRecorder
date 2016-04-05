@@ -14,6 +14,7 @@ public class TeamNamesDialog extends Dialog implements View.OnClickListener {
 
     private EditText teamNameA;
     private EditText teamNameB;
+
     private Button okButton;
 
     public TeamNamesDialog(Activity a) {

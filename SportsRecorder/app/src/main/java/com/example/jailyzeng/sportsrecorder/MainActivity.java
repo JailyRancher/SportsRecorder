@@ -32,6 +32,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private static Button summaryButton;
 
     private static boolean isFirstHalf = true;
+    private float x1,x2;
+    private static final int MIN_DISTANCE = 150;
 
     private float previousX;
     private float previousY;
@@ -94,6 +96,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
         else teamBScore.setText( Integer.toString(Statistics.getFirstScoreB() + Statistics.getSecondScoreB() ) );
     }
 
+    public static void changeToSecondHalf() {
+        isFirstHalf = false;
+    }
+
     final GestureDetector gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
         public void onLongPress(MotionEvent e) {
             Log.e("", "Longpress detected");
@@ -124,6 +130,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 //
 //
 //        return false;
+
         return gestureDetector.onTouchEvent(e);
     }
 
@@ -154,8 +161,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
             if( isFirstHalf ) Statistics.incrementFirstScoreB();
             else Statistics.incrementSecondScoreB();
             setTeamBScore();
-	    }
-        else if(v.getId() == R.id.summaryButton) {
+	    } else if(v.getId() == R.id.summaryButton) {
             int[] scores = {1,2,3,4,5,6,7,8};
             Bundle b = new Bundle();
             b.putIntArray("scores", scores);
