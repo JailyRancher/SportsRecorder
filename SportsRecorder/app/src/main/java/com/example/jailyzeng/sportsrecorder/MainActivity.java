@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.view.MotionEvent;
+import java.util.ArrayList;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -76,6 +77,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             b.putIntArray("scores", scores);
             Intent myIntent = new Intent(this, SummaryActivity.class);
             myIntent.putExtras(b);
+            myIntent.putExtra("scores", scores);
             startActivity(myIntent);
         }
     }
