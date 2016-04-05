@@ -34,10 +34,9 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     private static TextView teamBScore;
 
     private static Button summaryButton;
+    private static Button halftimeButton;
 
     private static boolean isFirstHalf = true;
-    private float x1,x2;
-    private static final int MIN_DISTANCE = 150;
 
     private float previousX;
     private float previousY;
@@ -69,6 +68,9 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         teamAScore = (TextView) findViewById(R.id.teamAScore);
         teamBScore = (TextView) findViewById(R.id.teamBScore);
 
+        halftimeButton = (Button) findViewById(R.id.halftimeButton);
+        halftimeButton.setOnClickListener(this);
+
         summaryButton = (Button) findViewById(R.id.summaryButton);
         summaryButton.setOnClickListener(this);
 
@@ -76,7 +78,6 @@ public class MainActivity extends Activity implements View.OnClickListener, View
 
         background.setOnTouchListener(this);
         background.setOnClickListener(this);
-
         background.setOnTouchListener(this);
 
         // Show dialog box that sets the team names
@@ -101,10 +102,6 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     public static void setTeamBScore() {
         if( isFirstHalf ) teamBScore.setText( Integer.toString( Statistics.getFirstScoreB() ) );
         else teamBScore.setText( Integer.toString(Statistics.getFirstScoreB() + Statistics.getSecondScoreB() ) );
-    }
-
-    public static void changeToSecondHalf() {
-        isFirstHalf = false;
     }
 
     public float getPreviousY() {
@@ -133,6 +130,12 @@ public class MainActivity extends Activity implements View.OnClickListener, View
             if( isFirstHalf ) Statistics.incrementFirstScoreB();
             else Statistics.incrementSecondScoreB();
             setTeamBScore();
+        } else if(v.getId() == R.id.halftimeButton) {
+            if( isFirstHalf ) {
+                Toast.makeText(this, "Half time!", Toast.LENGTH_SHORT).show ();
+                isFirstHalf = false;
+                halftimeButton.setEnabled(false);
+            }
         } else if(v.getId() == R.id.summaryButton) {
             int[] scores = {1,2,3,4,5,6,7,8};
             Bundle b = new Bundle();
@@ -169,14 +172,12 @@ public class MainActivity extends Activity implements View.OnClickListener, View
             case MotionEvent.ACTION_DOWN:
                 Log.d("","actiondown");
 
-		x1 = event.getX();                
-
 		v.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
                         Toast.makeText(getApplicationContext(), " Free Throw Miss", Toast.LENGTH_SHORT).show();
                         Statistics.incrementFirstScoreA();
-                        MainActivity.setTeamAScore();
+                        setTeamAScore();
                         time.add(date);
                         desc.add("Free Throw");
                         hit.add("Miss");
@@ -188,7 +189,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                     public void onClick(View v) {
                         Toast.makeText(getApplicationContext(), "Free Throw Hit!", Toast.LENGTH_SHORT).show();
                         Statistics.incrementFirstScoreA();
-                        MainActivity.setTeamAScore();
+                        setTeamAScore();
                         time.add(date);
                         desc.add("Free Throw");
                         hit.add("Hit");
@@ -215,7 +216,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                             Toast.makeText(getApplicationContext(), "2 Pointer Hit!", Toast.LENGTH_SHORT).show();
                             Statistics.incrementFirstScoreA();
                             Statistics.incrementFirstScoreA();
-                            MainActivity.setTeamAScore();
+                            setTeamAScore();
                             time.add(date);
                             desc.add("2 Pointer");
                             hit.add("Hit");
@@ -244,7 +245,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                             time.add(date);
                             desc.add("3 Pointer");
                             hit.add("Hit");
-                            MainActivity.setTeamAScore();
+                            setTeamAScore();
                         }
                     });
                 }
@@ -252,13 +253,6 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                 break;
             case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_UP:
-		x2 = event.getX();
-                float deltaX = x2 - x1;
-                if ( isFirstHalf && Math.abs(deltaX) > MIN_DISTANCE ) {
-                    HalfTimeDialog halfTimeDialog = new HalfTimeDialog(this);
-                    halfTimeDialog.show();
-                }
-		break;
             case MotionEvent.ACTION_POINTER_UP:
             case MotionEvent.ACTION_CANCEL:
             default:
