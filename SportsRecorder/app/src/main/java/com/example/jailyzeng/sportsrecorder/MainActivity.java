@@ -210,7 +210,8 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         } else if(v.getId() == R.id.summaryButton) {
 
             int[] scores = { Statistics.getFirstScoreA(), Statistics.getFirstScoreB(),
-                             Statistics.getSecondScoreA(), Statistics.getSecondScoreB() };
+                    Statistics.getFirstScoreA() + Statistics.getSecondScoreA(),
+                    Statistics.getFirstScoreB() + Statistics.getSecondScoreB() };
             Bundle b = new Bundle();
             b.putIntArray("scores", scores);
             Intent myIntent = new Intent(this, SummaryActivity.class);
