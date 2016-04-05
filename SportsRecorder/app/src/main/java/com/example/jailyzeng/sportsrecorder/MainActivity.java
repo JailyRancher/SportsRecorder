@@ -19,21 +19,27 @@ import java.util.HashMap;
 
 public class MainActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener{
 
-    private ArrayList<String> time;
-    private ArrayList<String> desc;
-    private ArrayList<String> hit;
+    private static ArrayList<String> time;
+    private static ArrayList<String> desc;
+    private static ArrayList<String> hit;
+
+    private static int time_halftime_size;
+    private static int desc_halftime_size;
+    private static int hit_halftime_size;
+
     private static TextView teamNameA;
     private static TextView teamNameB;
 
-    private static Button teamAMinusButton;
-    private static Button teamAPlusButton;
-    private static Button teamBMinusButton;
-    private static Button teamBPlusButton;
-    private static LinearLayout background;
-    private static TextView teamAScore;
-    private static TextView teamBScore;
+    private Button teamAMinusButton;
+    private Button teamAPlusButton;
+    private Button teamBMinusButton;
+    private Button teamBPlusButton;
+    private LinearLayout background;
+    private TextView teamAScore;
+    private TextView teamBScore;
 
-    private static Button summaryButton;
+    private static Button undoButton;
+    private Button summaryButton;
     private static Button halftimeButton;
 
     private static boolean isFirstHalf = true;
@@ -43,6 +49,19 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     private int state;
     private int myScore;
     private int otherScore;
+
+    public static void setTime_halftime_size() {
+        MainActivity.time_halftime_size = time.size();
+    }
+
+    public static void setDesc_halftime_size() {
+        MainActivity.desc_halftime_size = desc.size();
+    }
+
+    public static void setHit_halftime_size() {
+        MainActivity.hit_halftime_size = hit.size();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +86,9 @@ public class MainActivity extends Activity implements View.OnClickListener, View
 
         teamAScore = (TextView) findViewById(R.id.teamAScore);
         teamBScore = (TextView) findViewById(R.id.teamBScore);
+
+        undoButton = (Button) findViewById(R.id.undoButton);
+        undoButton.setOnClickListener(this);
 
         halftimeButton = (Button) findViewById(R.id.halftimeButton);
         halftimeButton.setOnClickListener(this);
@@ -102,12 +124,12 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         teamNameB.setText( Statistics.getTeamNameB() );
     }
 
-    public static void setTeamAScore() {
+    public void setTeamAScore() {
         if( isFirstHalf ) teamAScore.setText( Integer.toString( Statistics.getFirstScoreA() ) );
         else teamAScore.setText( Integer.toString( Statistics.getFirstScoreA() + Statistics.getSecondScoreA() ) );
     }
 
-    public static void setTeamBScore() {
+    public void setTeamBScore() {
         if( isFirstHalf ) teamBScore.setText( Integer.toString( Statistics.getFirstScoreB() ) );
         else teamBScore.setText( Integer.toString(Statistics.getFirstScoreB() + Statistics.getSecondScoreB() ) );
     }
@@ -122,28 +144,71 @@ public class MainActivity extends Activity implements View.OnClickListener, View
 
     @Override
     public void onClick(View v) {
-        if( v.getId() == R.id.teamAMinusButton ) {
-            if( isFirstHalf ) Statistics.decrementFirstScoreA();
+        if (v.getId() == R.id.teamAMinusButton) {
+            if (isFirstHalf) Statistics.decrementFirstScoreA();
             else Statistics.decrementSecondScoreA();
             setTeamAScore();
-        } else if( v.getId() == R.id.teamAPlusButton ) {
-            if( isFirstHalf ) Statistics.incrementFirstScoreA();
+        } else if (v.getId() == R.id.teamAPlusButton) {
+            if (isFirstHalf) Statistics.incrementFirstScoreA();
             else Statistics.incrementSecondScoreA();
             setTeamAScore();
-        } else if( v.getId() == R.id.teamBMinusButton ) {
-            if( isFirstHalf ) Statistics.decrementFirstScoreB();
+        } else if (v.getId() == R.id.teamBMinusButton) {
+            if (isFirstHalf) Statistics.decrementFirstScoreB();
             else Statistics.decrementSecondScoreB();
             setTeamBScore();
-        } else if( v.getId() == R.id.teamBPlusButton ) {
-            if( isFirstHalf ) Statistics.incrementFirstScoreB();
+        } else if (v.getId() == R.id.teamBPlusButton) {
+            if (isFirstHalf) Statistics.incrementFirstScoreB();
             else Statistics.incrementSecondScoreB();
             setTeamBScore();
+        } else if(v.getId() == R.id.undoButton) {
+
+            int timeSize = time.size();
+            int descSize = desc.size();
+            int hitSize = hit.size();
+            if( (isFirstHalf && timeSize > 0 && descSize > 0 && hitSize > 0) ||
+                (!isFirstHalf && timeSize > time_halftime_size && descSize > desc_halftime_size && hitSize > hit_halftime_size) ) {
+                // Decrement the score if needed
+                if( hit.get(hitSize-1).equals("Hit") ) {
+                    String desc_str = desc.get(descSize-1);
+                    if( desc_str.equals("Free Throw") ) {
+                        if( isFirstHalf ) Statistics.decrementFirstScoreA();
+                        else Statistics.decrementSecondScoreA();
+                    } else if( desc_str.equals("2 Pointer") ) {
+                        if( isFirstHalf ) {
+                            Statistics.decrementFirstScoreA();
+                            Statistics.decrementFirstScoreA();
+                        } else {
+                            Statistics.decrementSecondScoreA();
+                            Statistics.decrementSecondScoreA();
+                        }
+                    } else if( desc_str.equals("3 Pointer") ) {
+                        if( isFirstHalf ) {
+                            Statistics.decrementFirstScoreA();
+                            Statistics.decrementFirstScoreA();
+                            Statistics.decrementFirstScoreA();
+                        } else {
+                            Statistics.decrementSecondScoreA();
+                            Statistics.decrementSecondScoreA();
+                            Statistics.decrementSecondScoreA();
+                        }
+                    }
+                    setTeamAScore();
+                }
+                // Pop item from the arrary lists
+                time.remove( timeSize - 1 );
+                desc.remove( descSize - 1 );
+                hit.remove( hitSize - 1 );
+            }
+
         } else if(v.getId() == R.id.halftimeButton) {
+
             if( isFirstHalf ) {
                 HalfTimeDialog halfTimeDialog = new HalfTimeDialog(this);
                 halfTimeDialog.show();
             }
+
         } else if(v.getId() == R.id.summaryButton) {
+
             int[] scores = { Statistics.getFirstScoreA(), Statistics.getFirstScoreB(),
                              Statistics.getSecondScoreA(), Statistics.getSecondScoreB() };
             Bundle b = new Bundle();
@@ -157,6 +222,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
             myIntent.putExtra("teamA", Statistics.getTeamNameA());
             myIntent.putExtra("teamB", Statistics.getTeamNameB());
             startActivity(myIntent);
+
         }
 
     }

@@ -81,7 +81,7 @@ public class TouchSpot extends View implements View.OnTouchListener {
                     public boolean onLongClick(View v) {
                         // TODO Auto-generated method stub
                         Statistics.incrementFirstScoreA();
-                        MainActivity.setTeamAScore();
+                        //MainActivity.setTeamAScore();
                         return true;
                     }
 

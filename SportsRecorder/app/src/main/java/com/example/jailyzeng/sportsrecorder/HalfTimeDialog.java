@@ -42,6 +42,9 @@ public class HalfTimeDialog extends Dialog implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.halftimeYesButton:
                 MainActivity.changeToSecondHalf();
+                MainActivity.setTime_halftime_size();
+                MainActivity.setDesc_halftime_size();
+                MainActivity.setHit_halftime_size();
                 MainActivity.disableHalfTimeButton();
                 dismiss();
                 break;
