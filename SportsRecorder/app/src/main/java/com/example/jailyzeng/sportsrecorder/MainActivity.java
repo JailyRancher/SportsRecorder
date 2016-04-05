@@ -13,9 +13,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
-//    private static Button shareButton;
-//    private static Button summaryButton;
-
     private static TextView teamNameA;
     private static TextView teamNameB;
 
@@ -26,6 +23,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private static TextView teamAScore;
     private static TextView teamBScore;
+
+    private static Button summaryButton;
 
     private static boolean isFirstHalf = true;
 
@@ -56,6 +55,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         teamAScore = (TextView) findViewById(R.id.teamAScore);
         teamBScore = (TextView) findViewById(R.id.teamBScore);
 
+        summaryButton = (Button) findViewById(R.id.summaryButton);
+        summaryButton.setOnClickListener(this);
+
         //Log.w("location", "location");
 
         // Show dialog box that sets the team names
@@ -63,9 +65,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         teamNamesDialog.show();
 
         setTeamNamesLabels();
-
-        //summaryButton = (Button) findViewById(R.id.summaryButton);
-        //summaryButton.setOnClickListener(this);
 
         state = 0;
     }
