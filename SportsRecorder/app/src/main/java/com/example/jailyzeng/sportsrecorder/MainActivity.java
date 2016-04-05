@@ -89,6 +89,14 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         state = 0;
     }
 
+    public static void changeToSecondHalf() {
+        isFirstHalf = false;
+    }
+
+    public static void disableHalfTimeButton() {
+        halftimeButton.setEnabled(false);
+    }
+
     public static void setTeamNamesLabels() {
         teamNameA.setText( Statistics.getTeamNameA() );
         teamNameB.setText( Statistics.getTeamNameB() );
@@ -132,12 +140,12 @@ public class MainActivity extends Activity implements View.OnClickListener, View
             setTeamBScore();
         } else if(v.getId() == R.id.halftimeButton) {
             if( isFirstHalf ) {
-                Toast.makeText(this, "Half time!", Toast.LENGTH_SHORT).show ();
-                isFirstHalf = false;
-                halftimeButton.setEnabled(false);
+                HalfTimeDialog halfTimeDialog = new HalfTimeDialog(this);
+                halfTimeDialog.show();
             }
         } else if(v.getId() == R.id.summaryButton) {
-            int[] scores = {1,2,3,4,5,6,7,8};
+            int[] scores = { Statistics.getFirstScoreA(), Statistics.getFirstScoreB(),
+                             Statistics.getSecondScoreA(), Statistics.getSecondScoreB() };
             Bundle b = new Bundle();
             b.putIntArray("scores", scores);
             Intent myIntent = new Intent(this, SummaryActivity.class);
@@ -181,7 +189,8 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                     @Override
                     public boolean onLongClick(View v) {
                         Toast.makeText(getApplicationContext(), " Free Throw Miss", Toast.LENGTH_SHORT).show();
-                        Statistics.incrementFirstScoreA();
+                        if( isFirstHalf ) Statistics.incrementFirstScoreA();
+                        else Statistics.incrementSecondScoreA();
                         setTeamAScore();
                         time.add(date);
                         desc.add("Free Throw");
@@ -193,7 +202,8 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(getApplicationContext(), "Free Throw Hit!", Toast.LENGTH_SHORT).show();
-                        Statistics.incrementFirstScoreA();
+                        if( isFirstHalf ) Statistics.incrementFirstScoreA();
+                        else Statistics.incrementSecondScoreA();
                         setTeamAScore();
                         time.add(date);
                         desc.add("Free Throw");
@@ -219,8 +229,13 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                         @Override
                         public void onClick(View v) {
                             Toast.makeText(getApplicationContext(), "2 Pointer Hit!", Toast.LENGTH_SHORT).show();
-                            Statistics.incrementFirstScoreA();
-                            Statistics.incrementFirstScoreA();
+                            if( isFirstHalf ) {
+                                Statistics.incrementFirstScoreA();
+                                Statistics.incrementFirstScoreA();
+                            } else {
+                                Statistics.incrementSecondScoreA();
+                                Statistics.incrementSecondScoreA();
+                            }
                             setTeamAScore();
                             time.add(date);
                             desc.add("2 Pointer");
@@ -244,9 +259,15 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                         @Override
                         public void onClick(View v) {
                             Toast.makeText(getApplicationContext(), "3 Pointer Hit!", Toast.LENGTH_SHORT).show();
-                            Statistics.incrementFirstScoreA();
-                            Statistics.incrementFirstScoreA();
-                            Statistics.incrementFirstScoreA();
+                            if( isFirstHalf ) {
+                                Statistics.incrementFirstScoreA();
+                                Statistics.incrementFirstScoreA();
+                                Statistics.incrementFirstScoreA();
+                            } else {
+                                Statistics.incrementSecondScoreA();
+                                Statistics.incrementSecondScoreA();
+                                Statistics.incrementSecondScoreA();
+                            }
                             time.add(date);
                             desc.add("3 Pointer");
                             hit.add("Hit");

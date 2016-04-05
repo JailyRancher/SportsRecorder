@@ -32,10 +32,6 @@ public class SummaryActivity extends Activity implements View.OnClickListener {
         ((TextView) findViewById(R.id.q1s2)).setText(Integer.toString(scores[1]));
         ((TextView) findViewById(R.id.q2s1)).setText(Integer.toString(scores[2]));
         ((TextView) findViewById(R.id.q2s2)).setText(Integer.toString(scores[3]));
-        ((TextView) findViewById(R.id.q3s1)).setText(Integer.toString(scores[4]));
-        ((TextView) findViewById(R.id.q3s2)).setText(Integer.toString(scores[5]));
-        ((TextView) findViewById(R.id.q4s1)).setText(Integer.toString(scores[6]));
-        ((TextView) findViewById(R.id.q4s2)).setText(Integer.toString(scores[7]));
 
         TableLayout tl = (TableLayout) findViewById(R.id.eventInfo);
         TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
