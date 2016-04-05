@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.view.MotionEvent;
 import android.widget.TextView;
+import java.util.ArrayList;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -144,6 +145,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
             if( isFirstHalf ) Statistics.incrementFirstScoreB();
             else Statistics.incrementSecondScoreB();
             setTeamBScore();
+	}
+        if(v.getId() == R.id.summaryButton) {
+            int[] scores = {1,2,3,4,5,6,7,8};
+            Bundle b = new Bundle();
+            b.putIntArray("scores", scores);
+            Intent myIntent = new Intent(this, SummaryActivity.class);
+            myIntent.putExtras(b);
+            myIntent.putExtra("scores", scores);
+            startActivity(myIntent);
         }
     }
 }
