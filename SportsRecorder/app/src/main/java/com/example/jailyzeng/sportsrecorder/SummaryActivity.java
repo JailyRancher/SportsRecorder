@@ -89,7 +89,8 @@ public class SummaryActivity extends Activity implements View.OnClickListener {
         sharingIntent.setType("text/plain");
         Intent intent = this.getIntent();
         int[] scores = (int[]) intent.getSerializableExtra("scores");
-        String shareBody = "";//Arrays.toString(scores);
+        String shareBody = "1st Half - " + intent.getStringExtra("teamA")+ " with " + scores[0] + " points vs " + intent.getStringExtra("teamB") + " with " + scores[1] + " points. \n";
+        shareBody += "2st Half - " + intent.getStringExtra("teamA")+ " with " + scores[0] + " points vs " + intent.getStringExtra("teamB") + " with " + scores[1] + " points.\n";
         for(int i = 0; i < time.size(); i++){
             shareBody+= time.get(i)+"     "+desc.get(i)+"     "+hit.get(i)+"\n";
         }
