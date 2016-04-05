@@ -140,6 +140,11 @@ public class MainActivity extends Activity implements View.OnClickListener, View
             Intent myIntent = new Intent(this, SummaryActivity.class);
             myIntent.putExtras(b);
             myIntent.putExtra("scores", scores);
+            myIntent.putStringArrayListExtra("time", time);
+            myIntent.putStringArrayListExtra("desc", desc);
+            myIntent.putStringArrayListExtra("hit", hit);
+            myIntent.putExtra("teamA", Statistics.getTeamNameA());
+            myIntent.putExtra("teamB", Statistics.getTeamNameB());
             startActivity(myIntent);
         }
 
