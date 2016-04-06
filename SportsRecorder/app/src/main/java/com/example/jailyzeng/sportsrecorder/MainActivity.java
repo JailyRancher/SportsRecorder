@@ -49,7 +49,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     private int state;
     private int myScore;
     private int otherScore;
-
+    private boolean isTeamA = true;
     public static void setTime_halftime_size() {
         MainActivity.time_halftime_size = time.size();
     }
@@ -165,39 +165,77 @@ public class MainActivity extends Activity implements View.OnClickListener, View
             int timeSize = time.size();
             int descSize = desc.size();
             int hitSize = hit.size();
-            if( (isFirstHalf && timeSize > 0 && descSize > 0 && hitSize > 0) ||
-                (!isFirstHalf && timeSize > time_halftime_size && descSize > desc_halftime_size && hitSize > hit_halftime_size) ) {
-                // Decrement the score if needed
-                if( hit.get(hitSize-1).equals("Hit") ) {
-                    String desc_str = desc.get(descSize-1);
-                    if( desc_str.equals("Free Throw") ) {
-                        if( isFirstHalf ) Statistics.decrementFirstScoreA();
-                        else Statistics.decrementSecondScoreA();
-                    } else if( desc_str.equals("2 Pointer") ) {
-                        if( isFirstHalf ) {
-                            Statistics.decrementFirstScoreA();
-                            Statistics.decrementFirstScoreA();
-                        } else {
-                            Statistics.decrementSecondScoreA();
-                            Statistics.decrementSecondScoreA();
+            if(isTeamA){
+                if( (isFirstHalf && timeSize > 0 && descSize > 0 && hitSize > 0) ||
+                        (!isFirstHalf && timeSize > time_halftime_size && descSize > desc_halftime_size && hitSize > hit_halftime_size) ) {
+                    // Decrement the score if needed
+                    if( hit.get(hitSize-1).equals("Hit") ) {
+                        String desc_str = desc.get(descSize-1);
+                        if( desc_str.equals("Free Throw") ) {
+                            if( isFirstHalf ) Statistics.decrementFirstScoreA();
+                            else Statistics.decrementSecondScoreA();
+                        } else if( desc_str.equals("2 Pointer") ) {
+                            if( isFirstHalf ) {
+                                Statistics.decrementFirstScoreA();
+                                Statistics.decrementFirstScoreA();
+                            } else {
+                                Statistics.decrementSecondScoreA();
+                                Statistics.decrementSecondScoreA();
+                            }
+                        } else if( desc_str.equals("3 Pointer") ) {
+                            if( isFirstHalf ) {
+                                Statistics.decrementFirstScoreA();
+                                Statistics.decrementFirstScoreA();
+                                Statistics.decrementFirstScoreA();
+                            } else {
+                                Statistics.decrementSecondScoreA();
+                                Statistics.decrementSecondScoreA();
+                                Statistics.decrementSecondScoreA();
+                            }
                         }
-                    } else if( desc_str.equals("3 Pointer") ) {
-                        if( isFirstHalf ) {
-                            Statistics.decrementFirstScoreA();
-                            Statistics.decrementFirstScoreA();
-                            Statistics.decrementFirstScoreA();
-                        } else {
-                            Statistics.decrementSecondScoreA();
-                            Statistics.decrementSecondScoreA();
-                            Statistics.decrementSecondScoreA();
-                        }
+                        setTeamAScore();
                     }
-                    setTeamAScore();
+                    // Pop item from the arrary lists
+                    time.remove( timeSize - 1 );
+                    desc.remove( descSize - 1 );
+                    hit.remove( hitSize - 1 );
                 }
-                // Pop item from the arrary lists
-                time.remove( timeSize - 1 );
-                desc.remove( descSize - 1 );
-                hit.remove( hitSize - 1 );
+            }
+            else{
+                if( (isFirstHalf && timeSize > 0 && descSize > 0 && hitSize > 0) ||
+                        (!isFirstHalf && timeSize > time_halftime_size && descSize > desc_halftime_size && hitSize > hit_halftime_size) ) {
+                    // Decrement the score if needed
+                    if( hit.get(hitSize-1).equals("Hit") ) {
+                        String desc_str = desc.get(descSize-1);
+                        if( desc_str.equals("Free Throw") ) {
+                            if( isFirstHalf ) Statistics.decrementFirstScoreA();
+                            else Statistics.decrementSecondScoreA();
+                        } else if( desc_str.equals("2 Pointer") ) {
+                            if( isFirstHalf ) {
+                                Statistics.decrementFirstScoreB();
+                                Statistics.decrementFirstScoreB();
+                            } else {
+                                Statistics.decrementSecondScoreB();
+                                Statistics.decrementSecondScoreB();
+                            }
+                        } else if( desc_str.equals("3 Pointer") ) {
+                            if( isFirstHalf ) {
+                                Statistics.decrementFirstScoreB();
+                                Statistics.decrementFirstScoreB();
+                                Statistics.decrementFirstScoreB();
+                            } else {
+                                Statistics.decrementSecondScoreB();
+                                Statistics.decrementSecondScoreB();
+                                Statistics.decrementSecondScoreB();
+                            }
+                        }
+                        setTeamAScore();
+                    }
+                    // Pop item from the arrary lists
+                    time.remove( timeSize - 1 );
+                    desc.remove( descSize - 1 );
+                    hit.remove( hitSize - 1 );
+                }
             }
 
         } else if(v.getId() == R.id.halftimeButton) {
@@ -248,108 +286,214 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         int m = c.get(Calendar.MINUTE);
         String ms = m < 10 ? "0"+Integer.toString(m) : Integer.toString(m);
         final String date = c.get(Calendar.HOUR)+":"+ms+(c.get(Calendar.AM_PM)==0?"AM":"PM");
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                Log.d("","actiondown");
+        if(isTeamA) {
+            switch (action) {
+                case MotionEvent.ACTION_DOWN:
+                    Log.d("", "actiondown");
 
-		v.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        Toast.makeText(getApplicationContext(), " Free Throw Miss", Toast.LENGTH_SHORT).show();
-                        if( isFirstHalf ) Statistics.incrementFirstScoreA();
-                        else Statistics.incrementSecondScoreA();
-                        setTeamAScore();
-                        time.add(date);
-                        desc.add("Free Throw");
-                        hit.add("Miss");
-                        return true;
-                    }
-                });
-                v.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "Free Throw Hit!", Toast.LENGTH_SHORT).show();
-                        if( isFirstHalf ) Statistics.incrementFirstScoreA();
-                        else Statistics.incrementSecondScoreA();
-                        setTeamAScore();
-                        time.add(date);
-                        desc.add("Free Throw");
-                        hit.add("Hit");
-                    }
-                });
-                break;
-
-            case MotionEvent.ACTION_POINTER_DOWN:
-                if(event.getPointerCount()==2) {
                     v.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
-                            Toast.makeText(getApplicationContext(), "2 Pointer Miss", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), " Free Throw Miss", Toast.LENGTH_SHORT).show();
+                            if (isFirstHalf) Statistics.incrementFirstScoreA();
+                            else Statistics.incrementSecondScoreA();
+                            setTeamAScore();
                             time.add(date);
-                            desc.add("2 Pointer");
+                            desc.add("Free Throw");
                             hit.add("Miss");
                             return true;
                         }
-
                     });
                     v.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(getApplicationContext(), "2 Pointer Hit!", Toast.LENGTH_SHORT).show();
-                            if( isFirstHalf ) {
-                                Statistics.incrementFirstScoreA();
-                                Statistics.incrementFirstScoreA();
-                            } else {
-                                Statistics.incrementSecondScoreA();
-                                Statistics.incrementSecondScoreA();
-                            }
+                            Toast.makeText(getApplicationContext(), "Free Throw Hit!", Toast.LENGTH_SHORT).show();
+                            if (isFirstHalf) Statistics.incrementFirstScoreA();
+                            else Statistics.incrementSecondScoreA();
                             setTeamAScore();
                             time.add(date);
-                            desc.add("2 Pointer");
+                            desc.add("Free Throw");
                             hit.add("Hit");
                         }
                     });
-                }
-                else if(event.getPointerCount()==3){
+                    break;
+
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    if (event.getPointerCount() == 2) {
+                        v.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                Toast.makeText(getApplicationContext(), "2 Pointer Miss", Toast.LENGTH_SHORT).show();
+                                time.add(date);
+                                desc.add("2 Pointer");
+                                hit.add("Miss");
+                                return true;
+                            }
+
+                        });
+                        v.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(getApplicationContext(), "2 Pointer Hit!", Toast.LENGTH_SHORT).show();
+                                if (isFirstHalf) {
+                                    Statistics.incrementFirstScoreA();
+                                    Statistics.incrementFirstScoreA();
+                                } else {
+                                    Statistics.incrementSecondScoreA();
+                                    Statistics.incrementSecondScoreA();
+                                }
+                                setTeamAScore();
+                                time.add(date);
+                                desc.add("2 Pointer");
+                                hit.add("Hit");
+                            }
+                        });
+                    } else if (event.getPointerCount() == 3) {
+                        v.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                Toast.makeText(getApplicationContext(), "3 Pointer Miss", Toast.LENGTH_SHORT).show();
+                                time.add(date);
+                                desc.add("3 Pointer");
+                                hit.add("Miss");
+                                return true;
+                            }
+
+                        });
+                        v.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(getApplicationContext(), "3 Pointer Hit!", Toast.LENGTH_SHORT).show();
+                                if (isFirstHalf) {
+                                    Statistics.incrementFirstScoreA();
+                                    Statistics.incrementFirstScoreA();
+                                    Statistics.incrementFirstScoreA();
+                                } else {
+                                    Statistics.incrementSecondScoreA();
+                                    Statistics.incrementSecondScoreA();
+                                    Statistics.incrementSecondScoreA();
+                                }
+                                time.add(date);
+                                desc.add("3 Pointer");
+                                hit.add("Hit");
+                                setTeamAScore();
+                            }
+                        });
+                    }
+                    Log.d("fingers", Integer.toString(event.getPointerCount()));
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_POINTER_UP:
+                case MotionEvent.ACTION_CANCEL:
+                default:
+                    break;
+            }
+        }
+            else{
+            switch (action) {
+                case MotionEvent.ACTION_DOWN:
+                    Log.d("","actiondown");
+
                     v.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
-                            Toast.makeText(getApplicationContext(), "3 Pointer Miss", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), " Free Throw Miss", Toast.LENGTH_SHORT).show();
+                            if( isFirstHalf ) Statistics.incrementFirstScoreB();
+                            else Statistics.incrementSecondScoreA();
+                            setTeamAScore();
                             time.add(date);
-                            desc.add("3 Pointer");
+                            desc.add("Free Throw");
                             hit.add("Miss");
                             return true;
                         }
-
                     });
                     v.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(getApplicationContext(), "3 Pointer Hit!", Toast.LENGTH_SHORT).show();
-                            if( isFirstHalf ) {
-                                Statistics.incrementFirstScoreA();
-                                Statistics.incrementFirstScoreA();
-                                Statistics.incrementFirstScoreA();
-                            } else {
-                                Statistics.incrementSecondScoreA();
-                                Statistics.incrementSecondScoreA();
-                                Statistics.incrementSecondScoreA();
-                            }
-                            time.add(date);
-                            desc.add("3 Pointer");
-                            hit.add("Hit");
+                            Toast.makeText(getApplicationContext(), "Free Throw Hit!", Toast.LENGTH_SHORT).show();
+                            if( isFirstHalf ) Statistics.incrementFirstScoreB();
+                            else Statistics.incrementSecondScoreA();
                             setTeamAScore();
+                            time.add(date);
+                            desc.add("Free Throw");
+                            hit.add("Hit");
                         }
                     });
-                }
-                Log.d("fingers", Integer.toString(event.getPointerCount()));
-                break;
-            case MotionEvent.ACTION_MOVE:
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_POINTER_UP:
-            case MotionEvent.ACTION_CANCEL:
-            default:
-                break;
+                    break;
+
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    if(event.getPointerCount()==2) {
+                        v.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                Toast.makeText(getApplicationContext(), "2 Pointer Miss", Toast.LENGTH_SHORT).show();
+                                time.add(date);
+                                desc.add("2 Pointer");
+                                hit.add("Miss");
+                                return true;
+                            }
+
+                        });
+                        v.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(getApplicationContext(), "2 Pointer Hit!", Toast.LENGTH_SHORT).show();
+                                if( isFirstHalf ) {
+                                    Statistics.incrementFirstScoreB();
+                                    Statistics.incrementFirstScoreB();
+                                } else {
+                                    Statistics.incrementSecondScoreB();
+                                    Statistics.incrementSecondScoreB();
+                                }
+                                setTeamAScore();
+                                time.add(date);
+                                desc.add("2 Pointer");
+                                hit.add("Hit");
+                            }
+                        });
+                    }
+                    else if(event.getPointerCount()==3){
+                        v.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                Toast.makeText(getApplicationContext(), "3 Pointer Miss", Toast.LENGTH_SHORT).show();
+                                time.add(date);
+                                desc.add("3 Pointer");
+                                hit.add("Miss");
+                                return true;
+                            }
+
+                        });
+                        v.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(getApplicationContext(), "3 Pointer Hit!", Toast.LENGTH_SHORT).show();
+                                if( isFirstHalf ) {
+                                    Statistics.incrementFirstScoreB();
+                                    Statistics.incrementFirstScoreB();
+                                    Statistics.incrementFirstScoreB();
+                                } else {
+                                    Statistics.incrementSecondScoreB();
+                                    Statistics.incrementSecondScoreB();
+                                    Statistics.incrementSecondScoreB();
+                                }
+                                time.add(date);
+                                desc.add("3 Pointer");
+                                hit.add("Hit");
+                                setTeamAScore();
+                            }
+                        });
+                    }
+                    Log.d("fingers", Integer.toString(event.getPointerCount()));
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_POINTER_UP:
+                case MotionEvent.ACTION_CANCEL:
+                default:
+                    break;
+            }
         }
         return false;
     }
