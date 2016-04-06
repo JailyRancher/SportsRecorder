@@ -68,6 +68,10 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         isTeamA = !isTeamA;
     }
 
+    public static void setTeam(boolean a) {
+        isTeamA = a;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -283,6 +287,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         // Log.d("DEBUG", "Receiving touch event");
+        Log.d("flag", isTeamA?"true":"false");
         int action = event.getActionMasked();
         int index = event.getActionIndex();
         int id = event.getPointerId(index);
@@ -301,9 +306,6 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                         @Override
                         public boolean onLongClick(View v) {
                             Toast.makeText(getApplicationContext(), " Free Throw Miss", Toast.LENGTH_SHORT).show();
-                            if (isFirstHalf) Statistics.incrementFirstScoreA();
-                            else Statistics.incrementSecondScoreA();
-                            setTeamAScore();
                             time.add(date);
                             desc.add("Free Throw");
                             hit.add("Miss");
@@ -399,15 +401,10 @@ public class MainActivity extends Activity implements View.OnClickListener, View
             else{
             switch (action) {
                 case MotionEvent.ACTION_DOWN:
-                    Log.d("","actiondown");
-
                     v.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
                             Toast.makeText(getApplicationContext(), " Free Throw Miss", Toast.LENGTH_SHORT).show();
-                            if( isFirstHalf ) Statistics.incrementFirstScoreB();
-                            else Statistics.incrementSecondScoreA();
-                            setTeamAScore();
                             time.add(date);
                             desc.add("Free Throw");
                             hit.add("Miss");
@@ -419,8 +416,8 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                         public void onClick(View v) {
                             Toast.makeText(getApplicationContext(), "Free Throw Hit!", Toast.LENGTH_SHORT).show();
                             if( isFirstHalf ) Statistics.incrementFirstScoreB();
-                            else Statistics.incrementSecondScoreA();
-                            setTeamAScore();
+                            else Statistics.incrementSecondScoreB();
+                            setTeamBScore();
                             time.add(date);
                             desc.add("Free Throw");
                             hit.add("Hit");
