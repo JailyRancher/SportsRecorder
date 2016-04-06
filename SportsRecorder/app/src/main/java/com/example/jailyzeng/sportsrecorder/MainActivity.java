@@ -260,6 +260,10 @@ public class MainActivity extends Activity implements View.OnClickListener, View
             int[] scores = { Statistics.getFirstScoreA(), Statistics.getFirstScoreB(),
                     Statistics.getFirstScoreA() + Statistics.getSecondScoreA(),
                     Statistics.getFirstScoreB() + Statistics.getSecondScoreB() };
+            if( isFirstHalf ) {
+                scores[2] = 0;
+                scores[3] = 0;
+            }
             Bundle b = new Bundle();
             b.putIntArray("scores", scores);
             Intent myIntent = new Intent(this, SummaryActivity.class);
