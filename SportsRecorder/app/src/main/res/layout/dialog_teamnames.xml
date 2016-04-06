@@ -18,6 +18,10 @@
             android:layout_weight="3"
             android:gravity="center">
 
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -30,13 +34,13 @@
                     android:layout_weight="8.5"
                     android:hint="@string/hint_teamA"/>
 
-                <CheckBox
-                    android:id="@+id/teamACheckBox"
+                <RadioButton
+                    android:id="@+id/teamARadioButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1.5"
-                    android:checked="true" />
+                    android:checked="true"/>
 
             </LinearLayout>
 
@@ -58,14 +62,16 @@
                     android:layout_weight="8.5"
                     android:hint="@string/hint_teamB"/>
 
-                <CheckBox
-                    android:id="@+id/teamBCheckBox"
+                <RadioButton
+                    android:id="@+id/teamBRadioButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1.5" />
 
             </LinearLayout>
+
+            </RadioGroup>
 
         </LinearLayout>
 

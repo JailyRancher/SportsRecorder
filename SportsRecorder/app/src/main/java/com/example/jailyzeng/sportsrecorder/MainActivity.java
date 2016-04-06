@@ -44,12 +44,14 @@ public class MainActivity extends Activity implements View.OnClickListener, View
 
     private static boolean isFirstHalf = true;
 
+    private static boolean isTeamA = true;
+
     private float previousX;
     private float previousY;
     private int state;
     private int myScore;
     private int otherScore;
-    private boolean isTeamA = true;
+
     public static void setTime_halftime_size() {
         MainActivity.time_halftime_size = time.size();
     }
@@ -60,6 +62,10 @@ public class MainActivity extends Activity implements View.OnClickListener, View
 
     public static void setHit_halftime_size() {
         MainActivity.hit_halftime_size = hit.size();
+    }
+
+    public static void toggleIsTeamA() {
+        isTeamA = !isTeamA;
     }
 
     @Override
@@ -195,7 +201,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                         }
                         setTeamAScore();
                     }
-                    // Pop item from the arrary lists
+                    // Pop item from the array lists
                     time.remove( timeSize - 1 );
                     desc.remove( descSize - 1 );
                     hit.remove( hitSize - 1 );
@@ -231,7 +237,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                         }
                         setTeamAScore();
                     }
-                    // Pop item from the arrary lists
+                    // Pop item from the array lists
                     time.remove( timeSize - 1 );
                     desc.remove( descSize - 1 );
                     hit.remove( hitSize - 1 );
