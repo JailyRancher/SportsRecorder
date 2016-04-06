@@ -17,6 +17,8 @@ public class TeamNamesDialog extends Dialog implements View.OnClickListener {
 
     private Button okButton;
 
+    private Button teamARadioButton;
+
     public TeamNamesDialog(Activity a) {
         super(a);
     }
@@ -33,15 +35,22 @@ public class TeamNamesDialog extends Dialog implements View.OnClickListener {
 
         okButton = (Button) findViewById(R.id.okButton);
         okButton.setOnClickListener(this);
+
+        teamARadioButton = (Button) findViewById(R.id.teamARadioButton);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.okButton:
+                // Set team name labels
                 Statistics.setTeamNameA(teamNameA.getText().toString());
                 Statistics.setTeamNameB(teamNameB.getText().toString());
                 MainActivity.setTeamNamesLabels();
+                // Set isTeamA
+                if( !teamARadioButton.isEnabled() ) {
+                    MainActivity.toggleIsTeamA();
+                }
                 dismiss();
                 break;
             default:

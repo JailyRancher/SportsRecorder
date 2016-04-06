@@ -215,7 +215,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                         String desc_str = desc.get(descSize-1);
                         if( desc_str.equals("Free Throw") ) {
                             if( isFirstHalf ) Statistics.decrementFirstScoreA();
-                            else Statistics.decrementSecondScoreA();
+                            else Statistics.decrementSecondScoreB();
                         } else if( desc_str.equals("2 Pointer") ) {
                             if( isFirstHalf ) {
                                 Statistics.decrementFirstScoreB();
@@ -235,7 +235,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                                 Statistics.decrementSecondScoreB();
                             }
                         }
-                        setTeamAScore();
+                        setTeamBScore();
                     }
                     // Pop item from the array lists
                     time.remove( timeSize - 1 );
@@ -452,7 +452,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                                     Statistics.incrementSecondScoreB();
                                     Statistics.incrementSecondScoreB();
                                 }
-                                setTeamAScore();
+                                setTeamBScore();
                                 time.add(date);
                                 desc.add("2 Pointer");
                                 hit.add("Hit");
@@ -487,7 +487,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                                 time.add(date);
                                 desc.add("3 Pointer");
                                 hit.add("Hit");
-                                setTeamAScore();
+                                setTeamBScore();
                             }
                         });
                     }
