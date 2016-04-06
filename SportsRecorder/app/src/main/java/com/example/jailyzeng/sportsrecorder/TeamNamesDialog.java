@@ -52,9 +52,6 @@ public class TeamNamesDialog extends Dialog implements View.OnClickListener {
                 Statistics.setTeamNameB(teamNameB.getText().toString());
                 MainActivity.setTeamNamesLabels();
                 // Set isTeamA
-                if( !teamARadioButton.isEnabled() ) {
-                    MainActivity.toggleIsTeamA();
-                }
                 dismiss();
                 break;
             case R.id.teamARadioButton:
