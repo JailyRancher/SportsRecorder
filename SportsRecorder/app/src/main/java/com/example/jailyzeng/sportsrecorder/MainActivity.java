@@ -220,7 +220,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                     if( hit.get(hitSize-1).equals("Hit") ) {
                         String desc_str = desc.get(descSize-1);
                         if( desc_str.equals("Free Throw") ) {
-                            if( isFirstHalf ) Statistics.decrementFirstScoreA();
+                            if( isFirstHalf ) Statistics.decrementFirstScoreB();
                             else Statistics.decrementSecondScoreB();
                         } else if( desc_str.equals("2 Pointer") ) {
                             if( isFirstHalf ) {
