@@ -2,10 +2,12 @@ package com.example.jailyzeng.sportsrecorder;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.Button;
 import android.view.MotionEvent;
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class MainActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener{
+public class MainActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener {
 
     private static ArrayList<String> time;
     private static ArrayList<String> desc;
@@ -131,7 +133,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
 
     public static void setTeamNamesLabels() {
         teamNameA.setText( Statistics.getTeamNameA() );
-        teamNameB.setText( Statistics.getTeamNameB() );
+        teamNameB.setText(Statistics.getTeamNameB());
     }
 
     public void setTeamAScore() {
@@ -299,9 +301,9 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         float y = event.getY(index);
         Calendar c = Calendar.getInstance();
         int m = c.get(Calendar.MINUTE);
-        String ms = m < 10 ? "0"+Integer.toString(m) : Integer.toString(m);
-        final String date = c.get(Calendar.HOUR)+":"+ms+(c.get(Calendar.AM_PM)==0?"AM":"PM");
-        if(isTeamA) {
+        String ms = m < 10 ? "0" + Integer.toString(m) : Integer.toString(m);
+        final String date = c.get(Calendar.HOUR) + ":" + ms + (c.get(Calendar.AM_PM) == 0 ? "AM" : "PM");
+        if (isTeamA) {
             switch (action) {
                 case MotionEvent.ACTION_DOWN:
                     Log.d("", "actiondown");
@@ -503,6 +505,35 @@ public class MainActivity extends Activity implements View.OnClickListener, View
             }
         }
         return false;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        Log.v("new orientation", "yes");
+
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            int[] scores = { Statistics.getFirstScoreA(), Statistics.getFirstScoreB(),
+                    Statistics.getFirstScoreA() + Statistics.getSecondScoreA(),
+                    Statistics.getFirstScoreB() + Statistics.getSecondScoreB() };
+            if( isFirstHalf ) {
+                scores[2] = 0;
+                scores[3] = 0;
+            }
+            Bundle b = new Bundle();
+            b.putIntArray("scores", scores);
+            Intent myIntent = new Intent(this, SummaryActivity.class);
+            myIntent.putExtras(b);
+            myIntent.putExtra("scores", scores);
+            myIntent.putStringArrayListExtra("time", time);
+            myIntent.putStringArrayListExtra("desc", desc);
+            myIntent.putStringArrayListExtra("hit", hit);
+            myIntent.putExtra("teamA", Statistics.getTeamNameA());
+            myIntent.putExtra("teamB", Statistics.getTeamNameB());
+            startActivity(myIntent);
+        }
+
     }
 
 }

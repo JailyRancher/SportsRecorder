@@ -2,8 +2,10 @@ package com.example.jailyzeng.sportsrecorder;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,6 +100,18 @@ public class SummaryActivity extends Activity implements View.OnClickListener {
 
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        Log.v("new orientation", "yes");
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            finish();
+        }
+
     }
 
 }
