@@ -3,6 +3,7 @@ package com.example.jailyzeng.sportsrecorder;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.gesture.GestureOverlayView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.Button;
 import android.view.MotionEvent;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +43,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     private TextView teamBScore;
 
     private static Button undoButton;
-    private Button summaryButton;
+    private ImageButton helpButton;
     private static Button halftimeButton;
 
     private static boolean isFirstHalf = true;
@@ -105,8 +107,8 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         halftimeButton = (Button) findViewById(R.id.halftimeButton);
         halftimeButton.setOnClickListener(this);
 
-        summaryButton = (Button) findViewById(R.id.summaryButton);
-        summaryButton.setOnClickListener(this);
+        helpButton = (ImageButton) findViewById(R.id.helpButton);
+        helpButton.setOnClickListener(this);
 
         background = (LinearLayout) findViewById(R.id.background);
 
@@ -257,26 +259,10 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                 halfTimeDialog.show();
             }
 
-        } else if(v.getId() == R.id.summaryButton) {
+        } else if(v.getId() == R.id.helpButton) {
 
-            int[] scores = { Statistics.getFirstScoreA(), Statistics.getFirstScoreB(),
-                    Statistics.getFirstScoreA() + Statistics.getSecondScoreA(),
-                    Statistics.getFirstScoreB() + Statistics.getSecondScoreB() };
-            if( isFirstHalf ) {
-                scores[2] = 0;
-                scores[3] = 0;
-            }
-            Bundle b = new Bundle();
-            b.putIntArray("scores", scores);
-            Intent myIntent = new Intent(this, SummaryActivity.class);
-            myIntent.putExtras(b);
-            myIntent.putExtra("scores", scores);
-            myIntent.putStringArrayListExtra("time", time);
-            myIntent.putStringArrayListExtra("desc", desc);
-            myIntent.putStringArrayListExtra("hit", hit);
-            myIntent.putExtra("teamA", Statistics.getTeamNameA());
-            myIntent.putExtra("teamB", Statistics.getTeamNameB());
-            startActivity(myIntent);
+            HelpDialog helpDialog = new HelpDialog(this);
+            helpDialog.show();
 
         }
 
@@ -308,6 +294,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                 case MotionEvent.ACTION_DOWN:
                     Log.d("", "actiondown");
 
+                    // x1 = event.getX(); // for swiping
                     v.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {

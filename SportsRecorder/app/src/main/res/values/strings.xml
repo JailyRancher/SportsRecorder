@@ -8,6 +8,8 @@
     <string name="minus">-</string>
     <string name="plus">+</string>
 
+    <string name="dialog_help_msg">Touch the court with the following gestures to record events.</string>
+
     <string name="dialog_halftime_msg">Change to second half of the game?</string>
     <string name="dialog_yes">YES</string>
     <string name="dialog_no">NO</string>

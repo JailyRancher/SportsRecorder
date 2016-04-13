@@ -125,11 +125,17 @@
             android:text="HALF-TIME"
             android:id="@+id/halftimeButton" />
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SUMMARY"
-            android:id="@+id/summaryButton" />
+            android:src="@drawable/help"
+            android:id="@+id/helpButton"/>
+
+        <!--<Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/help"
+            android:id="@+id/summaryButton" />-->
 
     </LinearLayout>
 
